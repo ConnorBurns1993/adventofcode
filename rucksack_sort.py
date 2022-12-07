@@ -1,3 +1,5 @@
+# PART 1 ------------
+
 # Read the Data
 with open('day3.in') as file:
     rucksacks = [i for i in file.read().strip().split('\n')]
@@ -18,3 +20,20 @@ for rucksack in rucksacks:
     for c in compartment1:
         if c in compartment2:
             total += priority.index(c)
+
+# PART 2 -----------------
+
+total = 0
+j = 3
+
+# Make groups of 3
+for i in range(0, len(rucksacks), 3):
+    groups = rucksacks[i:j]
+    j += 3
+
+# Check if the letter is in all three of the groups and if it is, add the priority values to the total.
+    for p in priority:
+        if p in groups[0] and p in groups[1] and p in groups[2]:
+            total += priority.index(p)
+
+print(total)
