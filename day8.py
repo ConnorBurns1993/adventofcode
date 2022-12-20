@@ -7,11 +7,11 @@ trees = [list(x) for x in forest.split('\n')]
 #Part 1 --------------------------------
 
 # Since the input is 99x99, just multiply the length - 1 times 4, so you don't recount each corner
-# visible = (len(trees) - 1) * 4
+visible = (len(trees) - 1) * 4
 
 # # Loop through to correctly iterate the grid
-# for i in range(1, len(trees) - 1):
-#     for j in range(1, len(trees[i]) - 1):
+for i in range(1, len(trees) - 1):
+    for j in range(1, len(trees[i]) - 1):
 #         # start booleans as false, as we check them, we mill mark them as true if they are visible from one end,
 #         # so we don't count a tree visible from 2 or more ways as separate trees
 #         top, left, right, bottom = False, False, False, False
@@ -21,48 +21,52 @@ trees = [list(x) for x in forest.split('\n')]
 #         #Just break the loop, but if the index gets all the way to 0 we know we are at the leftmost side,
 #         #So we add to visible, and mark left as True for when we check the other trees.
 
-#         if trees[i][j] > trees[i][j - 1]:
-#             for k in range(j - 1, -1, -1):
-#                 if trees[i][k] >= trees[i][j]:
-#                     break
-#                 if k == 0 and trees[i][k] < trees[i][j]:
-#                     visible += 1
-#                     left = True
+        if trees[i][j] > trees[i][j - 1]:
+            for k in range(j - 1, -1, -1):
+                if trees[i][k] >= trees[i][j]:
+                    break
+                if k == 0 and trees[i][k] < trees[i][j]:
+                    visible += 1
+                    left = True
 
 #         #We do the same with each other side, just iterating slightly different for directional purposes.
 #         #Right
-#         if trees[i][j] > trees[i][j + 1]:
-#             for k in range(j + 1, len(trees[i])):
-#                 if trees[i][k] >= trees[i][j]:
-#                     break
-#                 if k == len(trees[i]) - 1 and trees[i][k] < trees[i][j] and left == False:
-#                     visible += 1
-#                     right = True
+        if trees[i][j] > trees[i][j + 1]:
+            for k in range(j + 1, len(trees[i])):
+                if trees[i][k] >= trees[i][j]:
+                    break
+                if k == len(trees[i]) - 1 and trees[i][k] < trees[i][j] and left == False:
+                    visible += 1
+                    right = True
 #         #Up
-#         if trees[i][j] > trees[i - 1][j]:
-#             for k in range(i - 1, -1, -1):
-#                 if trees[k][j] >= trees[i][j]:
-#                     break
-#                 if k == 0 and trees[k][j] < trees[i][j] and left == False and right == False:
-#                     visible += 1
-#                     top = True
+        if trees[i][j] > trees[i - 1][j]:
+            for k in range(i - 1, -1, -1):
+                if trees[k][j] >= trees[i][j]:
+                    break
+                if k == 0 and trees[k][j] < trees[i][j] and left == False and right == False:
+                    visible += 1
+                    top = True
 #         #Down
-#         if trees[i][j] > trees[i + 1][j]:
-#             for k in range(i + 1, len(trees)):
-#                 if trees[k][j] >= trees[i][j]:
-#                     break
-#                 if k == len(trees) - 1 and trees[k][j] < trees[i][j] and left == False and right == False and top == False:
-#                     visible += 1
-#                     bottom = True
+        if trees[i][j] > trees[i + 1][j]:
+            for k in range(i + 1, len(trees)):
+                if trees[k][j] >= trees[i][j]:
+                    break
+                if k == len(trees) - 1 and trees[k][j] < trees[i][j] and left == False and right == False and top == False:
+                    visible += 1
+                    bottom = True
 
 # #Finally, print the visible trees
-# print(visible)
+print(visible)
 
 # Part 2 ----------------------------
 
 visible = (len(trees) - 1) * 4
 cur_top, cur_bottom, cur_right, cur_left = 0, 0, 0, 0
 total = 0
+
+# The only thing we are doing differently for Part 2 is counting the current amount of trees on each side,
+# Then at the end, multiplying them together, and storing the highest value each time in the 'total' variable.
+# Before each new loop, we reset all the sides so they will just be counting the current tree.
 
 for i in range(1, len(trees) - 1):
     for j in range(1, len(trees[i]) - 1):
@@ -98,6 +102,7 @@ for i in range(1, len(trees) - 1):
                     break
                 if k == len(trees) - 1 and trees[k][j] < trees[i][j]:
                     break
+
         total = max(total, cur_top * cur_left * cur_bottom * cur_right)
         cur_top, cur_right, cur_bottom, cur_left = 0, 0, 0, 0
 
